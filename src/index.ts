@@ -1,18 +1,34 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.json`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { qrCodeRouter } from '../routes/productRoutes';
 
+// Define the type for environment bindings
+type Bindings = {
+    DATABASE_URL: string;
+    AES_SECRET_KEY: string;
+};
+
+// Create the Hono app with proper type bindings
+const app = new Hono<{
+    Bindings: Bindings;
+}>();
+
+// Configure CORS
+app.use('/*', cors({
+    origin: 'https://qr-code-frontend-rouge.vercel.app',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Root route
+app.get('/', (c) => {
+    return c.text('Hello from Cloudflare Workers with Hono! Typescript Enabled!');
+});
+
+// Mount the QR code routes
+app.route('/api/products', qrCodeRouter);
+
+// Export the worker with the Hono app
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
-	},
-} satisfies ExportedHandler<Env>;
+    fetch: app.fetch,
+} satisfies ExportedHandler<Bindings>;

@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+   output   = "./client"
+}
+
+ datasource db {
+   provider     = "postgresql"
+   url          = env("DATABASE_URL")
+ }
+
+ model Product {
+     id           Int      @id @default(autoincrement())
+    name         String
+     stationId    String
+     uuid         String   @unique
+     signedQRCode String
+     batchId      String
+     createdAt    DateTime @default(now())
+
+      scans      Scan[]
+      sellerScans      SellerScan[]
+  }
+ 
+  
+   model MasterQRCode {
+       id Int @id @default(autoincrement())
+      batchId  String @unique
+       masterQRCode String
+      createdAt DateTime @default(now())
+     }
+    
+    model Scan {
+         id         Int      @id @default(autoincrement())
+         productId  Int
+         locationLatitude Decimal
+       locationLongitude Decimal
+         locationName String?
+        scannedAt  DateTime @default(now())
+          product   Product @relation(fields: [productId], references: [id])
+        }
+    
+      model SellerScan {
+          id         Int      @id @default(autoincrement())
+          productId  Int
+         locationLatitude Decimal
+         locationLongitude Decimal
+         locationName String?
+        scannedAt  DateTime @default(now())
+         product   Product @relation(fields: [productId], references: [id])
+       }

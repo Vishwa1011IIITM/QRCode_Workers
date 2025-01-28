@@ -1,0 +1,13 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	 "name": "qr-code-backend",
+	 "main": "dist/worker.ts",
+	 "compatibility_date": "2024-12-12",
+	 "observability": {
+		  "enabled": true
+	   },
+	  "vars": {
+		"DATABASE_URL": "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMjMzZDY5YjMtZmM1NS00OTQwLTliNDYtNTFmMTBhYjVjMzkzIiwidGVuYW50X2lkIjoiODVjZjhkN2M0YzM5MzRjMTRkYTljODUzZTU4OWRjMWMyMTZjMDVhNjUyMjhiODAxMTMyYzY0MzM5ODAwM2Q0ZCIsImludGVybmFsX3NlY3JldCI6ImIxMmY2OGJmLWM1NTYtNDJiNi04NmE0LWUyNmQyMmQ0MzZhYyJ9.yLjdWpp0K3qKIJQnpfcXIRQQy14Ut6SFmMIwdh5zxqg",
+		"AES_SECRET_KEY": "your_secret_key"
+	  }
+   }

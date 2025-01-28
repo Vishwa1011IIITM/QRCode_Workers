@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
+    "build": "esbuild src/index.ts --bundle --minify --format=esm --outfile=dist/worker.js",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "start": "npm run dev",
     "test": "vitest",
     "cf-typegen": "wrangler types"
   },

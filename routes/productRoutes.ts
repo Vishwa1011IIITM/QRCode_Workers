@@ -42,7 +42,7 @@ const generateQRCode = async (data : string): Promise<string> => {
   };
     
 
-    qrCodeRouter.post('/api/products/sign', async (c) => {
+    qrCodeRouter.post('/sign', async (c) => {
         try {
             const { name, stationId, numberOfCodes } = await c.req.json();
            const batchId = uuidv4();
@@ -93,7 +93,7 @@ const generateQRCode = async (data : string): Promise<string> => {
        }
    });
 
-  qrCodeRouter.get('/api/products/batch/:batchId/download', async (c) => {
+  qrCodeRouter.get('/batch/:batchId/download', async (c) => {
        const batchId = c.req.param('batchId');
           try {
             const prisma = new PrismaClient({
@@ -148,7 +148,7 @@ const generateQRCode = async (data : string): Promise<string> => {
           }
    });
     
-     qrCodeRouter.post('/api/products/scan', async (c) => {
+     qrCodeRouter.post('/scan', async (c) => {
         const { signedQRCode, location } = await c.req.json();
         try {
             const decodedData = await verify(signedQRCode, c.env.AES_SECRET_KEY);
@@ -221,7 +221,7 @@ const generateQRCode = async (data : string): Promise<string> => {
         }
     });
         
-   qrCodeRouter.get('/api/products/scan-history', async (c) => {
+   qrCodeRouter.get('/scan-history', async (c) => {
         const signedQRCode = c.req.query('signedQRCode');
          try {
             const prisma = new PrismaClient({
@@ -302,7 +302,7 @@ const generateQRCode = async (data : string): Promise<string> => {
         }
     });
 
-    qrCodeRouter.post('/api/products/seller-scan', async (c) => {
+    qrCodeRouter.post('/seller-scan', async (c) => {
             const { signedQRCode, location } = await c.req.json();
              try {
                const decodedData = await verify(signedQRCode, c.env.AES_SECRET_KEY);
